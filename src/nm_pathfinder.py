@@ -62,8 +62,20 @@ def find_path (source_point, destination_point, mesh):
         x1, x2, y1, y2 = current
         next = came_from[current]
         x3, x4, y3, y4 = next
-        new_x = (max(x1, x3), min(x2, x4))
-        new_y = (max(y1, y3), min(y2, y4))
+        new_xRange = (max(x1, x3), (max(x1,x3) + min(x2,x4))/2,min(x2, x4))
+        new_yRange = (max(y1, y3), (max(y1,y3) + min(y2,y4))/2,min(y2, y4))
+
+        distance = inf
+
+        new_x = 0
+        new_y = 0
+        for i in new_xRange:
+            for j in new_yRange:
+                dist = sqrt(i**2 + j**2)
+                if dist < distance:
+                    distance = dist
+                    new_x = i
+                    new_y = j
             
 
         path.append((new_x,new_y))
