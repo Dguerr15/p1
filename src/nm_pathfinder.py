@@ -1,4 +1,5 @@
 from heapq import heappop, heappush
+from math import inf, sqrt
 
 def find_path (source_point, destination_point, mesh):
 
@@ -40,6 +41,7 @@ def find_path (source_point, destination_point, mesh):
     came_from = {} 
     came_from[source_box] = None
     
+    finished = False
     while not(len(frontier) == 0):
         current = frontier.pop()
         for next in mesh['adj'][current]:
@@ -47,16 +49,26 @@ def find_path (source_point, destination_point, mesh):
                 frontier.append(next)
                 came_from[next] = current
                 if next == destination_box:
+                    finished = True
                     break
     
+    if not finished:
+        print("No path found")
+        return [], boxes.keys()
     
     path.append(destination_point)
     current = came_from[destination_box]
     while current != source_box:
         x1, x2, y1, y2 = current
-        path.append((x1,y1))
-        current = came_from[current]
+        next = came_from[current]
+        x3, x4, y3, y4 = next
+        new_x = (max(x1, x3), min(x2, x4))
+        new_y = (max(y1, y3), min(y2, y4))
+            
 
+        path.append((new_x,new_y))
+        current = next
+        
     path.append(source_point)
     path.reverse()
         
