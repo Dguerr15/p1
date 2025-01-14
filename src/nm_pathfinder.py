@@ -43,7 +43,7 @@ def find_path (source_point, destination_point, mesh):
     
     finished = False
     while not(len(frontier) == 0):
-        current = frontier.pop()
+        current = frontier.pop(0)
         for next in mesh['adj'][current]:
             if next not in came_from:
                 frontier.append(next)
