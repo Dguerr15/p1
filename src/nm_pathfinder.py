@@ -71,7 +71,7 @@ def find_path (source_point, destination_point, mesh):
         new_y = 0
         for i in new_xRange:
             for j in new_yRange:
-                dist = sqrt(i**2 + j**2)
+                dist = sqrt((path[-1][0] - i)**2 + (path[-1][1] - j)**2)
                 if dist < distance:
                     distance = dist
                     new_x = i
