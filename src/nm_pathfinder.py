@@ -35,6 +35,10 @@ def find_path (source_point, destination_point, mesh):
 
     if source_box == destination_box:
         return [source_point, destination_point], explored_boxes
+    
+    if not source_box or not destination_box:
+        print("No path found")
+        return [], explored_boxes
 
     # Priority queue for bidirectional A*
     frontier = []
