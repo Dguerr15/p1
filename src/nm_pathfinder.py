@@ -129,6 +129,15 @@ def reconstruct_path(forward_prev, backward_prev, forward_detail_points, backwar
     # Path from source to meeting point
     current = meeting_point
     while current is not None:
+        if forward_prev[current] is None:  # This is the source box
+            # Add an intermediate detail point constrained within the source box
+            if path:
+                first_point = path[-1]
+            else:
+                first_point = forward_detail_points[current]
+            constrained_point = constrain_to_box(first_point, current)
+            path.append(constrained_point)
+
         path.append(forward_detail_points[current])
         current = forward_prev[current]
 
@@ -136,7 +145,13 @@ def reconstruct_path(forward_prev, backward_prev, forward_detail_points, backwar
 
     # Path from meeting point to destination
     current = backward_prev[meeting_point]
-    while current is not None:
+    while current is not None:  
+        # Add an intermediate detail point constrained within the destination box
+        if current in backward_detail_points and current == list(backward_prev.keys())[0]:  # Destination box
+            last_point = path[-1]
+            intermediate_point = constrain_to_box(last_point, current)
+            path.append(intermediate_point)
+
         path.append(backward_detail_points[current])
         current = backward_prev[current]
 
